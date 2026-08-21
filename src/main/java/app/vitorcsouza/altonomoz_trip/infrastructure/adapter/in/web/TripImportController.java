@@ -18,10 +18,9 @@ public class TripImportController {
     public ResponseEntity<String> importCsv() {
         try {
             importTripsFromSheetUseCase.execute();
-            return ResponseEntity.ok("Importação da planilha concluída com sucesso!");
+            return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Erro ao importar planilha: " + e.getMessage());
         }
     }
-
 }
