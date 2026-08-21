@@ -5,11 +5,10 @@ import app.vitorcsouza.altonomoz_trip.application.port.out.CsvReaderPort;
 import app.vitorcsouza.altonomoz_trip.application.port.out.TripRepositoryPort;
 import app.vitorcsouza.altonomoz_trip.domain.model.Trip;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 @RequiredArgsConstructor
 public class ImportTripsFromSheetService implements ImportTripsFromSheetUseCase {
 

@@ -4,9 +4,7 @@ import app.vitorcsouza.altonomoz_trip.application.port.in.CreateTripUseCase;
 import app.vitorcsouza.altonomoz_trip.application.port.out.TripRepositoryPort;
 import app.vitorcsouza.altonomoz_trip.domain.model.Trip;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
 public class CreateTripService implements CreateTripUseCase {
 
