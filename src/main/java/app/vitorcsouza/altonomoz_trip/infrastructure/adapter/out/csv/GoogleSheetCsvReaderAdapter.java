@@ -59,6 +59,8 @@ public class GoogleSheetCsvReaderAdapter implements CsvReaderPort {
                         .valor(parseToBigDecimal(record.get("Valor")))
                         .build();
 
+                trip.calcularValoresDerivados();
+
                 trips.add(trip);
             }
         } catch (Exception e) {

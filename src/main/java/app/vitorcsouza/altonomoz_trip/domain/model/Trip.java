@@ -21,11 +21,28 @@ public class Trip {
     private Double km;
     private Duration tempo;
     private BigDecimal valor;
+    private BigDecimal valorPorKm;
+    private BigDecimal valorPorMinuto;
+
+    public void calcularValoresDerivados() {
+        this.valorPorKm = calcularValorPorKm();
+        this.valorPorMinuto = calcularValorPorMinuto();
+    }
 
     public BigDecimal calcularValorPorKm() {
-        if (km == null || km == 0) {
+        if (km == null || km == 0 || valor == null) {
             return BigDecimal.ZERO;
         }
         return valor.divide(BigDecimal.valueOf(km), 2, RoundingMode.HALF_UP);
+    }
+
+    public BigDecimal calcularValorPorMinuto() {
+        if (tempo == null || tempo.isZero() || valor == null) {
+            return BigDecimal.ZERO;
+        }
+        long totalMinutes = tempo.toMinutes();
+        if (totalMinutes == 0) return BigDecimal.ZERO;
+
+        return valor.divide(BigDecimal.valueOf(totalMinutes), 2, RoundingMode.HALF_UP);
     }
 }
