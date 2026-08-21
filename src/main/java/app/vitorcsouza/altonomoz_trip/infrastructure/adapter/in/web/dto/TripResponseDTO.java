@@ -9,7 +9,7 @@ public record TripResponseDTO(
         String origem,
         String destino,
         Double km,
-        Integer tempo,
+        String tempo,
         BigDecimal valor,
         BigDecimal valorPorKm
 ) {

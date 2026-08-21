@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 public record TripRequestDTO(
@@ -25,8 +26,7 @@ public record TripRequestDTO(
         Double km,
 
         @NotNull(message = "O tempo em minutos é obrigatório.")
-        @Positive(message = "O tempo em minutos deve ser maior que zero.")
-        Integer tempo,
+        Duration tempo,
 
         @NotNull(message = "O valor é obrigatório.")
         @Positive(message = "O valor deve ser maior que zero.")

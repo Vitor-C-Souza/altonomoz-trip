@@ -28,13 +28,22 @@ public class TripWebMapper {
             return null;
         }
 
+        String tempoFormatado = null;
+        if (trip.getTempo() != null) {
+            long segundosTotais = trip.getTempo().getSeconds();
+            tempoFormatado = String.format("%02d:%02d:%02d",
+                    segundosTotais / 3600,
+                    (segundosTotais % 3600) / 60,
+                    segundosTotais % 60);
+        }
+
         return new TripResponseDTO(
                 trip.getOs(),
                 trip.getData(),
                 trip.getOrigem(),
                 trip.getDestino(),
                 trip.getKm(),
-                trip.getTempo(),
+                tempoFormatado,
                 trip.getValor(),
                 trip.calcularValorPorKm()
         );

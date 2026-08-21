@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -18,7 +19,7 @@ public class Trip {
     private String origem;
     private String destino;
     private Double km;
-    private Integer tempo;
+    private Duration tempo;
     private BigDecimal valor;
 
     public BigDecimal calcularValorPorKm() {

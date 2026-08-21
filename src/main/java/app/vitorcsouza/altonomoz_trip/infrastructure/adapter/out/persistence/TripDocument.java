@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Data
@@ -22,7 +23,7 @@ public class TripDocument {
     private String origem;
     private String destino;
     private Double km;
-    private Integer tempo;
+    private Duration tempo;
     private BigDecimal valor;
     private BigDecimal valorPorKm;
 }
