@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -53,6 +54,7 @@ public class GoogleSheetCsvReaderAdapter implements CsvReaderPort {
                         .os(record.get("OS"))
                         .data(parseData(record.get("Data")))
                         .origem(record.get("Origem"))
+                        .paradas(parseParadas(record.get("Parada")))
                         .destino(record.get("Destino"))
                         .km(parseToDouble(record.get("Km")))
                         .tempo(parseToDuration(record.get("Tempo")))
@@ -90,6 +92,18 @@ public class GoogleSheetCsvReaderAdapter implements CsvReaderPort {
     private Double parseToDouble(String value) {
         if (value == null || value.isBlank()) return 0.0;
         return Double.parseDouble(value.replace(",", ".").trim());
+    }
+
+    private List<String> parseParadas(String rawParadas) {
+        if (rawParadas == null || rawParadas.isBlank()) {
+            return List.of();
+        }
+
+        // Suporta separadores comuns: ponto e vírgula (;), vírgula (,) ou quebra de linha (\n)
+        return Arrays.stream(rawParadas.split("[;,\n]"))
+                .map(String::trim)
+                .filter(s -> !s.isBlank())
+                .toList();
     }
 
     private Duration parseToDuration(String value) {

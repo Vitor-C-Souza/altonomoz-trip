@@ -1,19 +1,19 @@
 package app.vitorcsouza.altonomoz_trip.infrastructure.adapter.in.web;
 
 import app.vitorcsouza.altonomoz_trip.application.port.in.CreateTripUseCase;
+import app.vitorcsouza.altonomoz_trip.application.port.in.GetRecebimentosPendentesUseCase;
 import app.vitorcsouza.altonomoz_trip.domain.model.Trip;
+import app.vitorcsouza.altonomoz_trip.infrastructure.adapter.in.web.dto.RecebimentoDiarioDTO;
 import app.vitorcsouza.altonomoz_trip.infrastructure.adapter.in.web.dto.TripRequestDTO;
 import app.vitorcsouza.altonomoz_trip.infrastructure.adapter.in.web.dto.TripResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/trips")
@@ -21,6 +21,7 @@ import java.net.URI;
 public class TripController {
 
     private final CreateTripUseCase createTripUseCase;
+    private final GetRecebimentosPendentesUseCase getRecebimentosPendentesUseCase;
     private final TripWebMapper mapper;
 
     @PostMapping
@@ -30,5 +31,10 @@ public class TripController {
         TripResponseDTO response = mapper.toResponse(createdTrip);
         URI uri = builder.path("/api/v1/trips/{id}").buildAndExpand(createdTrip.getOs()).toUri();
         return ResponseEntity.created(uri).body(response);
+    }
+
+    @GetMapping("/recebimentos/pendentes")
+    public ResponseEntity<List<RecebimentoDiarioDTO>> getRecebimentosPendentes() {
+        return ResponseEntity.ok(getRecebimentosPendentesUseCase.execute());
     }
 }

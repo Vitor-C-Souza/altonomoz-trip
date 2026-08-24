@@ -22,11 +22,14 @@ public class TripPersistenceMapper {
                 .os(trip.getOs())
                 .data(trip.getData())
                 .origem(trip.getOrigem())
+                .paradas(trip.getParadas())
                 .destino(trip.getDestino())
                 .km(trip.getKm())
                 .tempo(trip.getTempo())
                 .valor(trip.getValor())
-                .valorPorKm(valorPorKm)
+                .valorPorKm(trip.getValorPorKm())
+                .valorPorMinuto(trip.getValorPorMinuto())
+                .pago(trip.isPago())
                 .build();
     }
 
@@ -39,10 +42,14 @@ public class TripPersistenceMapper {
                 .os(doc.getOs())
                 .data(doc.getData())
                 .origem(doc.getOrigem())
+                .paradas(doc.getParadas())
                 .destino(doc.getDestino())
                 .km(doc.getKm())
                 .tempo(doc.getTempo())
                 .valor(doc.getValor())
+                .valorPorKm(doc.getValorPorKm())
+                .valorPorMinuto(doc.getValorPorMinuto())
+                .pago(doc.isPago())
                 .build();
     }
 }

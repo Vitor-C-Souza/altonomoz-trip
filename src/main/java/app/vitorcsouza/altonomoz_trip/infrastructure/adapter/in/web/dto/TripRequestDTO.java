@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record TripRequestDTO(
         @NotBlank(message = "A OS é obrigatória.")
@@ -17,6 +18,8 @@ public record TripRequestDTO(
 
         @NotBlank(message = "A origem é obrigatória.")
         String origem,
+
+        List<String> paradas,
 
         @NotBlank(message = "O destino é obrigatório.")
         String destino,

@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -21,9 +22,12 @@ public class TripDocument {
     private String os;
     private LocalDateTime data;
     private String origem;
+    private List<String> paradas;
     private String destino;
     private Double km;
     private Duration tempo;
     private BigDecimal valor;
     private BigDecimal valorPorKm;
+    private BigDecimal valorPorMinuto;
+    private boolean pago;
 }

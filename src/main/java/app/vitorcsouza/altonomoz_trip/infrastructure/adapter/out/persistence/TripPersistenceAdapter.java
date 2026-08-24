@@ -5,8 +5,7 @@ import app.vitorcsouza.altonomoz_trip.domain.model.Trip;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -31,5 +30,12 @@ public class TripPersistenceAdapter implements TripRepositoryPort {
     @Override
     public Optional<Trip> findByOs(String os) {
         return mongoRepository.findById(os).map(mapper::toDomain);
+    }
+
+    @Override
+    public List<Trip> findPendingTrips() {
+        return mongoRepository.findByPagoFalse().stream()
+                .map(mapper::toDomain)
+                .toList();
     }
 }
