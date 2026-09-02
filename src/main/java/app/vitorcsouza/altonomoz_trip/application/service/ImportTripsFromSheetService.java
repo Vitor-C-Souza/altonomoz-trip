@@ -1,5 +1,6 @@
 package app.vitorcsouza.altonomoz_trip.application.service;
 
+import app.vitorcsouza.altonomoz_trip.application.exception.TripAlreadyExistsException;
 import app.vitorcsouza.altonomoz_trip.application.port.in.ImportTripsFromSheetUseCase;
 import app.vitorcsouza.altonomoz_trip.application.port.out.CsvReaderPort;
 import app.vitorcsouza.altonomoz_trip.application.port.out.TripRepositoryPort;
@@ -24,7 +25,12 @@ public class ImportTripsFromSheetService implements ImportTripsFromSheetUseCase 
             }
 
             trip.calcularValoresDerivados();
-            tripRepositoryPort.save(trip);
+
+            try {
+                tripRepositoryPort.save(trip);
+            } catch (TripAlreadyExistsException exception) {
+                // Another import may have inserted the same OS between the existence check and save.
+            }
         }
     }
 }
