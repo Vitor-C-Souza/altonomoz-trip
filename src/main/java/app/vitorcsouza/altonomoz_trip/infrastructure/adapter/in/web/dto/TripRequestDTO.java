@@ -26,9 +26,9 @@ public record TripRequestDTO(
 
         @NotNull(message = "A distância em km é obrigatória.")
         @Positive(message = "A distância em km deve ser maior que zero.")
-        Double km,
+        BigDecimal km,
 
-        @NotNull(message = "O tempo em minutos é obrigatório.")
+        @NotNull(message = "O tempo é obrigatório.")
         Duration tempo,
 
         @NotNull(message = "O valor é obrigatório.")
