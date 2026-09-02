@@ -16,6 +16,7 @@ public class TripWebMapper {
                 .os(request.os())
                 .data(request.data())
                 .origem(request.origem())
+                .paradas(request.paradas())
                 .destino(request.destino())
                 .km(request.km())
                 .tempo(request.tempo())
