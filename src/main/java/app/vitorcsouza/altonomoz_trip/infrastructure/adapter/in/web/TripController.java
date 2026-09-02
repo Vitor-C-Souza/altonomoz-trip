@@ -1,8 +1,10 @@
 package app.vitorcsouza.altonomoz_trip.infrastructure.adapter.in.web;
 
 import app.vitorcsouza.altonomoz_trip.application.port.in.CreateTripUseCase;
+import app.vitorcsouza.altonomoz_trip.application.port.in.GetGanhosMensaisUseCase;
 import app.vitorcsouza.altonomoz_trip.application.port.in.GetRecebimentosPendentesUseCase;
 import app.vitorcsouza.altonomoz_trip.domain.model.Trip;
+import app.vitorcsouza.altonomoz_trip.infrastructure.adapter.in.web.dto.GanhoMensalDTO;
 import app.vitorcsouza.altonomoz_trip.infrastructure.adapter.in.web.dto.RecebimentoDiarioDTO;
 import app.vitorcsouza.altonomoz_trip.infrastructure.adapter.in.web.dto.TripRequestDTO;
 import app.vitorcsouza.altonomoz_trip.infrastructure.adapter.in.web.dto.TripResponseDTO;
@@ -22,6 +24,7 @@ public class TripController {
 
     private final CreateTripUseCase createTripUseCase;
     private final GetRecebimentosPendentesUseCase getRecebimentosPendentesUseCase;
+    private final GetGanhosMensaisUseCase getGanhosMensaisUseCase;
     private final TripWebMapper mapper;
 
     @PostMapping
@@ -36,5 +39,15 @@ public class TripController {
     @GetMapping("/recebimentos/pendentes")
     public ResponseEntity<List<RecebimentoDiarioDTO>> getRecebimentosPendentes() {
         return ResponseEntity.ok(getRecebimentosPendentesUseCase.execute());
+    }
+
+    @GetMapping({
+            "/ganhos/mensais",
+            "/ganhos/por-mes",
+            "/recebimentos/mensais",
+            "/recebimentos/por-mes"
+    })
+    public ResponseEntity<List<GanhoMensalDTO>> getGanhosMensais() {
+        return ResponseEntity.ok(getGanhosMensaisUseCase.execute());
     }
 }

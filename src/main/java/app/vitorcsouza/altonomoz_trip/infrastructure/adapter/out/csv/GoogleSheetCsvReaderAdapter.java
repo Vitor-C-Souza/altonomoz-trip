@@ -26,12 +26,16 @@ public class GoogleSheetCsvReaderAdapter implements CsvReaderPort {
     private final RestTemplate restTemplate = new RestTemplate();
     private final String csvUrl;
 
-    public GoogleSheetCsvReaderAdapter(@Value("${google.sheets.csv-url}") String csvUrl) {
+    public GoogleSheetCsvReaderAdapter(@Value("${google.sheets.csv-url:}") String csvUrl) {
         this.csvUrl = csvUrl;
     }
 
     @Override
     public List<Trip> readTrips() {
+        if (csvUrl == null || csvUrl.isBlank()) {
+            return List.of();
+        }
+
         List<Trip> trips = new ArrayList<>();
         String csvContent = restTemplate.getForObject(csvUrl, String.class);
 

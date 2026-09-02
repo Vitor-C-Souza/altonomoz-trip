@@ -152,6 +152,27 @@ Resposta esperada:
 ]
 ```
 
+### Consultar ganhos por mês
+
+```http
+GET /api/v1/trips/ganhos/mensais
+```
+
+Resposta esperada:
+
+```json
+[
+  {
+    "mes": "2026-08",
+    "valor": 27550.00
+  },
+  {
+    "mes": "2026-09",
+    "valor": 9100.00
+  }
+]
+```
+
 ## Estrutura do projeto
 
 ```text
