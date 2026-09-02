@@ -1,5 +1,6 @@
 package app.vitorcsouza.altonomoz_trip.infrastructure.adapter.in.web.dto;
 
+import app.vitorcsouza.altonomoz_trip.infrastructure.validation.PositiveDuration;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -29,6 +30,7 @@ public record TripRequestDTO(
         BigDecimal km,
 
         @NotNull(message = "O tempo é obrigatório.")
+        @PositiveDuration
         Duration tempo,
 
         @NotNull(message = "O valor é obrigatório.")
