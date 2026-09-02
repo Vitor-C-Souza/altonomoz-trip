@@ -65,6 +65,7 @@ public class GoogleSheetCsvReaderAdapter implements CsvReaderPort {
                         .valor(parseToBigDecimal(record.get("Valor")))
                         .build();
 
+                validateBusinessRules(trip);
                 trips.add(trip);
             }
         } catch (Exception e) {
@@ -74,8 +75,51 @@ public class GoogleSheetCsvReaderAdapter implements CsvReaderPort {
         return trips;
     }
 
+    private void validateBusinessRules(Trip trip) {
+        requireText(trip.getOs(), "OS");
+        if (trip.getData() == null) {
+            throw new IllegalArgumentException("Data é obrigatória para a viagem " + trip.getOs());
+        }
+        requireText(trip.getOrigem(), "Origem");
+
+        boolean cancelada = "CANCELADA".equalsIgnoreCase(trip.getOrigem().trim());
+
+        if (!cancelada) {
+            requireText(trip.getDestino(), "Destino");
+
+            if (trip.getKm() == null || trip.getKm().signum() <= 0) {
+                throw new IllegalArgumentException("Km deve ser maior que zero para a viagem " + trip.getOs());
+            }
+
+            if (trip.getTempo() == null || trip.getTempo().isZero() || trip.getTempo().isNegative()) {
+                throw new IllegalArgumentException("Tempo deve ser maior que zero para a viagem " + trip.getOs());
+            }
+        } else {
+            if (trip.getKm() == null || trip.getKm().signum() < 0) {
+                throw new IllegalArgumentException("Km não pode ser negativo para a viagem cancelada " + trip.getOs());
+            }
+
+            if (trip.getTempo() == null || trip.getTempo().isNegative()) {
+                throw new IllegalArgumentException("Tempo não pode ser negativo para a viagem cancelada " + trip.getOs());
+            }
+        }
+
+        if (trip.getValor() == null || trip.getValor().signum() <= 0) {
+            throw new IllegalArgumentException("Valor deve ser maior que zero para a viagem " + trip.getOs());
+        }
+    }
+
+    private void requireText(String value, String field) {
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException(field + " é obrigatório");
+        }
+    }
+
     private LocalDateTime parseData(String rawDate) {
-        if (rawDate == null || rawDate.isBlank()) return LocalDateTime.now();
+        if (rawDate == null || rawDate.isBlank()) {
+            throw new IllegalArgumentException("Data é obrigatória");
+        }
+
         String cleanDate = rawDate.trim();
 
         try {
