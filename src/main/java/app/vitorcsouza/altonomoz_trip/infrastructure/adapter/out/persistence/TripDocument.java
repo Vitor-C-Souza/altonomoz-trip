@@ -24,7 +24,7 @@ public class TripDocument {
     private String origem;
     private List<String> paradas;
     private String destino;
-    private Double km;
+    private BigDecimal km;
     private Duration tempo;
     private BigDecimal valor;
     private BigDecimal valorPorKm;
