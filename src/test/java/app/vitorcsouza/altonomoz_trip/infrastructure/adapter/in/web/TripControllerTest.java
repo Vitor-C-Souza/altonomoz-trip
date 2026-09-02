@@ -74,7 +74,7 @@ class TripControllerTest {
                                 }
                                 """))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "/api/v1/trips/OS-001"))
+                .andExpect(header().string("Location", "http://localhost/api/v1/trips/OS-001"))
                 .andExpect(jsonPath("$.os").value("OS-001"))
                 .andExpect(jsonPath("$.valorPorKm").value(5.0))
                 .andExpect(jsonPath("$.valorPorMinuto").value(10.0));
