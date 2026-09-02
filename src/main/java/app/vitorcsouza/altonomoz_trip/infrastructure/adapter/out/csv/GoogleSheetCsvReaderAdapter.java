@@ -60,12 +60,10 @@ public class GoogleSheetCsvReaderAdapter implements CsvReaderPort {
                         .origem(record.get("Origem"))
                         .paradas(parseParadas(record.get("Parada")))
                         .destino(record.get("Destino"))
-                        .km(parseToDouble(record.get("Km")))
+                        .km(parseToBigDecimal(record.get("Km")))
                         .tempo(parseToDuration(record.get("Tempo")))
                         .valor(parseToBigDecimal(record.get("Valor")))
                         .build();
-
-                trip.calcularValoresDerivados();
 
                 trips.add(trip);
             }
@@ -93,17 +91,11 @@ public class GoogleSheetCsvReaderAdapter implements CsvReaderPort {
         return LocalDateTime.parse(cleanDate, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
     }
 
-    private Double parseToDouble(String value) {
-        if (value == null || value.isBlank()) return 0.0;
-        return Double.parseDouble(value.replace(",", ".").trim());
-    }
-
     private List<String> parseParadas(String rawParadas) {
         if (rawParadas == null || rawParadas.isBlank()) {
             return List.of();
         }
 
-        // Suporta separadores comuns: ponto e vírgula (;), vírgula (,) ou quebra de linha (\n)
         return Arrays.stream(rawParadas.split("[;,\n]"))
                 .map(String::trim)
                 .filter(s -> !s.isBlank())
@@ -130,7 +122,25 @@ public class GoogleSheetCsvReaderAdapter implements CsvReaderPort {
 
     private BigDecimal parseToBigDecimal(String value) {
         if (value == null || value.isBlank()) return BigDecimal.ZERO;
-        String cleanValue = value.replace("R$", "").replace(" ", "").replace(".", "").replace(",", ".").trim();
+
+        String cleanValue = value
+                .replace("R$", "")
+                .replace(" ", "")
+                .trim();
+
+        boolean hasComma = cleanValue.contains(",");
+        boolean hasDot = cleanValue.contains(".");
+
+        if (hasComma && hasDot) {
+            if (cleanValue.lastIndexOf(',') > cleanValue.lastIndexOf('.')) {
+                cleanValue = cleanValue.replace(".", "").replace(',', '.');
+            } else {
+                cleanValue = cleanValue.replace(",", "");
+            }
+        } else if (hasComma) {
+            cleanValue = cleanValue.replace(',', '.');
+        }
+
         return new BigDecimal(cleanValue);
     }
 }

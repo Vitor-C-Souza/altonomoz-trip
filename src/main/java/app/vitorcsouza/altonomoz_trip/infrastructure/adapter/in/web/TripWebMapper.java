@@ -16,6 +16,7 @@ public class TripWebMapper {
                 .os(request.os())
                 .data(request.data())
                 .origem(request.origem())
+                .paradas(request.paradas())
                 .destino(request.destino())
                 .km(request.km())
                 .tempo(request.tempo())
@@ -45,7 +46,9 @@ public class TripWebMapper {
                 trip.getKm(),
                 tempoFormatado,
                 trip.getValor(),
-                trip.calcularValorPorKm()
+                trip.getValorPorKm(),
+                trip.getValorPorMinuto(),
+                trip.isPago()
         );
     }
 }
