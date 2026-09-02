@@ -8,9 +8,11 @@ public record TripResponseDTO(
         LocalDateTime data,
         String origem,
         String destino,
-        Double km,
+        BigDecimal km,
         String tempo,
         BigDecimal valor,
-        BigDecimal valorPorKm
+        BigDecimal valorPorKm,
+        BigDecimal valorPorMinuto,
+        boolean pago
 ) {
 }
