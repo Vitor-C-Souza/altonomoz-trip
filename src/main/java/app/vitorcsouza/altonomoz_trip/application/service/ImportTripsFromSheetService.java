@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-
 @RequiredArgsConstructor
 public class ImportTripsFromSheetService implements ImportTripsFromSheetUseCase {
 
@@ -20,6 +19,11 @@ public class ImportTripsFromSheetService implements ImportTripsFromSheetUseCase 
         List<Trip> trips = csvReaderPort.readTrips();
 
         for (Trip trip : trips) {
+            if (tripRepositoryPort.existsByOs(trip.getOs())) {
+                continue;
+            }
+
+            trip.calcularValoresDerivados();
             tripRepositoryPort.save(trip);
         }
     }
