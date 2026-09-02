@@ -45,7 +45,9 @@ public class TripWebMapper {
                 trip.getKm(),
                 tempoFormatado,
                 trip.getValor(),
-                trip.calcularValorPorKm()
+                trip.getValorPorKm(),
+                trip.getValorPorMinuto(),
+                trip.isPago()
         );
     }
 }
