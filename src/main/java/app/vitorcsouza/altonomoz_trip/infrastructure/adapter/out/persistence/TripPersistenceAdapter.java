@@ -1,8 +1,10 @@
 package app.vitorcsouza.altonomoz_trip.infrastructure.adapter.out.persistence;
 
+import app.vitorcsouza.altonomoz_trip.application.exception.TripAlreadyExistsException;
 import app.vitorcsouza.altonomoz_trip.application.port.out.TripRepositoryPort;
 import app.vitorcsouza.altonomoz_trip.domain.model.Trip;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,8 +20,13 @@ public class TripPersistenceAdapter implements TripRepositoryPort {
     @Override
     public Trip save(Trip trip) {
         TripDocument document = mapper.toDocument(trip);
-        TripDocument saved = mongoRepository.save(document);
-        return mapper.toDomain(saved);
+
+        try {
+            TripDocument saved = mongoRepository.save(document);
+            return mapper.toDomain(saved);
+        } catch (DuplicateKeyException exception) {
+            throw new TripAlreadyExistsException(trip.getOs());
+        }
     }
 
     @Override
