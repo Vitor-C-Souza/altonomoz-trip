@@ -1,5 +1,6 @@
 package app.vitorcsouza.altonomoz_trip.infrastructure.exception;
 
+import app.vitorcsouza.altonomoz_trip.application.exception.TripAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
