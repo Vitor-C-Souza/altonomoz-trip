@@ -15,12 +15,8 @@ public class TripImportController {
     private final ImportTripsFromSheetUseCase importTripsFromSheetUseCase;
 
     @PostMapping
-    public ResponseEntity<String> importCsv() {
-        try {
-            importTripsFromSheetUseCase.execute();
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro ao importar planilha: " + e.getMessage());
-        }
+    public ResponseEntity<Void> importCsv() {
+        importTripsFromSheetUseCase.execute();
+        return ResponseEntity.noContent().build();
     }
 }
