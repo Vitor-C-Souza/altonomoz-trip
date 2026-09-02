@@ -65,7 +65,6 @@ public class GoogleSheetCsvReaderAdapter implements CsvReaderPort {
                         .valor(parseToBigDecimal(record.get("Valor")))
                         .build();
 
-                trip.calcularValoresDerivados();
                 trips.add(trip);
             }
         } catch (Exception e) {
@@ -123,7 +122,25 @@ public class GoogleSheetCsvReaderAdapter implements CsvReaderPort {
 
     private BigDecimal parseToBigDecimal(String value) {
         if (value == null || value.isBlank()) return BigDecimal.ZERO;
-        String cleanValue = value.replace("R$", "").replace(" ", "").replace(".", "").replace(",", ".").trim();
+
+        String cleanValue = value
+                .replace("R$", "")
+                .replace(" ", "")
+                .trim();
+
+        boolean hasComma = cleanValue.contains(",");
+        boolean hasDot = cleanValue.contains(".");
+
+        if (hasComma && hasDot) {
+            if (cleanValue.lastIndexOf(',') > cleanValue.lastIndexOf('.')) {
+                cleanValue = cleanValue.replace(".", "").replace(',', '.');
+            } else {
+                cleanValue = cleanValue.replace(",", "");
+            }
+        } else if (hasComma) {
+            cleanValue = cleanValue.replace(',', '.');
+        }
+
         return new BigDecimal(cleanValue);
     }
 }
